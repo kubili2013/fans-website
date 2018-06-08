@@ -1,0 +1,56 @@
+// Styling for the contact section
+section.fg-form {
+  padding-bottom: 5rem;
+  .container{
+    position: relative;
+    padding: 3rem;
+    margin: 0.5rem;
+    background-color: fade-out(#333, 0.15);
+    &:before {
+      border-radius: 0.6rem;
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      bottom: -0.5rem;
+      left: -0.5rem;
+      right: -0.5rem;
+      border: 0.25rem solid fade-out(#333, 0.15);
+    }
+  }
+  .section-heading {
+    color: $white;
+  }
+  .form-group {
+    margin-bottom: 25px;
+    input,
+    textarea {
+      padding: 20px;
+    }
+    input.form-control {
+      height: auto;
+    }
+    textarea.form-control {
+      height: 248px;
+    }
+  }
+  .form-control:focus {
+    border-color: $primary;
+    box-shadow: none;
+  }
+  ::-webkit-input-placeholder {
+    font-weight: 700;
+    color: $gray-400;
+  }
+  :-moz-placeholder {
+    font-weight: 700;
+    color: $gray-400;
+  }
+  ::-moz-placeholder {
+    font-weight: 700;
+    color: $gray-400;
+  }
+  :-ms-input-placeholder {
+    font-weight: 700;
+    color: $gray-400;
+  }
+}

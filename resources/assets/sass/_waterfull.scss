@@ -1,0 +1,10 @@
+.box {
+  float: left;
+  margin-left: 5px;
+  transition: all .25s;
+  .content {
+    border: 1px solid $box-border-color;
+    box-shadow: 0 0 2px $box-shadow-color;
+    padding: 5px;
+  }
+}
