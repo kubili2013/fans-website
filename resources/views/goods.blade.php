@@ -10,127 +10,92 @@
       </div>
     </div>
   </section>
-  <div class="container">
-    <div class="row"  style="padding-bottom:30px;">
-      <div class="col-md-12 text-center mx-auto" id="waterfull">
-        {{-- ************************************** --}}
-        @foreach($goods as $g)
-          <div class="box">
-            <div class="content portfolio-item">
-              <a class="portfolio-link" href="{{$g->url}}" target="_blank" download="">
-                <div class="portfolio-hover">
-                  <div class="portfolio-hover-content">
-                    <i class="glyphicon glyphicon-search"></i>
-                  </div>
-                </div>
-                <img class="img-fluid" src="{{$g->image_url}}?imageMogr2/thumbnail/!200x" width="200">
-              </a>
-            </div>
-          </div>
-        @endforeach
-        {{-- ************************************ --}}
-      </div>
-    </div>
+
+<div  id="_wrapper">
+  <div id="_container">
+  @foreach($goods as $g)
+    <div class="grid-waterfull">
+			<div class="imgholder"><img class="lazy" data-original="{{$g->image_url}}?imageMogr2/thumbnail/!200x" width="200" /></div>
+      <strong>{{$g->title}}</strong>
+			<div class="meta"><a href="{{$g->url}}" target="_blank"><i class="glyphicon glyphicon-menu-right"></i>点击前往<i class="glyphicon glyphicon-menu-left"></i></a></div>
+		</div>
+  @endforeach
   </div>
-  @include('layouts.mask')
+</div>
 @endsection
 
 @push('script')
-<script>
-  function Position(box,container,data){
-      this.boxWidth = box.eq(0).width();
-      // 750px 970px 1170px
-      this.waterfull=container;
-      this.data=data;
-      this.setBody();
-      this.scroll();
-      this.onresize();
-  }
-  var page = 1;
-  var totalpage = {{$goods->lastPage()}};
-  Position.prototype={
-      constructor:Position,
-      setBody(){
-          // this.container.css("width",this.num() * 220);
-          this.add();
-      },
-      box() {
-          return $(".box");
-      },
-      add() {
-          let [that,boxArr]=[this,[]];
-          this.box().hide();
-          this.box().each(function (index, value){
-              let boxheight = that.box().eq(index).height();
-              if (index < that.num()){
-                  $(value).removeAttr("style");
-                  boxArr[index] = boxheight ;
-              } else {
-                  let minboxheight = Math.min(...boxArr);
-                  let minposiindex = $.inArray(minboxheight, boxArr);
-                  $(value).css({
-                      "position": "absolute",
-                      "top": minboxheight + 5,
-                      "left": that.box().eq(minposiindex).position().left
-                  });
-                  $(value).show();
-                  boxArr[minposiindex] += (that.box().eq(index).height()+5);
-              }
-          });
-      },
-      scroll(){
-          let that=this;
-          window.onscroll = function (){
-            if (that.slidescroll() && page < totalpage) {
-              mask();
-              $.ajaxSetup({async:false}); 
-              $.get("{{route('goods.page')}}?page=" + (page + 1),function(result){
-                page = result.current_page;
-                totalpage =  result.last_page;
-                $.each(result.data,function(index,value){
-                  let _value = value;
-                  $.get( $(value).attr("image_url") + "?imageInfo",function(result){
-                    that.waterfull.append(`<div class="box">
-                      <div class="content portfolio-item">
-                        <a class="portfolio-link" href="${$(_value).attr("url")}"  target="_blank" id="goods-${$(_value).attr("id")}">
-                          <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                              <i class="glyphicon glyphicon-download-alt"></i>
-                            </div>
-                          </div>
-                          <img class="img-fluid" src="${$(_value).attr("image_url")}?imageMogr2/thumbnail/!200x" width="200" height="${$(result).attr("height") / $(result).attr("width") * 200}">
-                        </a>
-                      </div>
-                    </div>`);
-                  });
-                    
-                });
-                that.setBody();
-              });
-              enmask();
-            }
-          };
-      },
-      onresize(){
-          let that=this;
-          window.onresize=function(){
-              that.setBody();
-          }
-      },
-      num() {
-          return (Math.floor(this.waterfull.width() / (this.boxWidth + 15) ));
-      },
-      slidescroll() {
-          return ($(document).height() <= $(window).height() + $(window).scrollTop() + 200);
-      }
-  };
-  new Position($(".box"),$("#waterfull"),[]);
-  // $(window).on("load", function (){
-      
-  //     $.get("{{route('image.page')}}?page=" + page,function(result){
-  //       page = result.current_page;
-  //       new Position($(".box"),$("#waterfull"),result.data);
-  //     });
-  // });
+<script type="text/javascript" src="/js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="/js/blocksit.min.js"></script>
+<script type="text/javascript">
+var page = 1;
+var totalpage = {{$goods->lastPage()}};
+$(function(){
+	$("img.lazy").lazyload({		
+		load:function(){
+			$('#_container').BlocksIt({
+				numOfCol:5,
+				offsetX: 8,
+				offsetY: 8
+			});
+		}
+	});	
+	$(window).scroll(function(){
+			// 当滚动到最底部以上50像素时， 加载新内容
+		if (page < totalpage && $(document).height() - $(this).scrollTop() - $(this).height()<20){
+      $.ajaxSetup({async:false}); 
+      $.get("{{route('goods.page')}}?page=" + (page + 1),function(result){
+        page = result.current_page;
+        totalpage =  result.last_page;
+        $.each(result.data,function(index,value){
+          $('#_container').append(`
+          <div class="grid-waterfull">
+            <div class="imgholder"><img class="lazy" data-original="${$(value).attr("image_url")}?imageMogr2/thumbnail/!200x" width="200" /></div>
+            <strong>${$(value).attr("title")}</strong>
+            <div class="meta"><a href="${$(value).attr("url")}" target="_blank"><i class="glyphicon glyphicon-menu-right"></i>点击前往<i class="glyphicon glyphicon-menu-left"></i></a></div>
+          </div>
+          `);
+        });
+      });
+					
+			$('#_container').BlocksIt({
+				numOfCol:5,
+				offsetX: 8,
+				offsetY: 8
+			});
+			$("img.lazy").lazyload();
+		}
+	});
+	
+	//window resize
+	var currentWidth = 1100;
+	$(window).resize(function() {
+		var winWidth = $(window).width();
+		var conWidth;
+		if(winWidth < 660) {
+			conWidth = 440;
+			col = 2
+		} else if(winWidth < 880) {
+			conWidth = 660;
+			col = 3
+		} else if(winWidth < 1100) {
+			conWidth = 880;
+			col = 4;
+		} else {
+			conWidth = 1100;
+			col = 5;
+		}
+		
+		if(conWidth != currentWidth) {
+			currentWidth = conWidth;
+			$('#_container').width(conWidth);
+			$('#_container').BlocksIt({
+				numOfCol: col,
+				offsetX: 8,
+				offsetY: 8
+			});
+		}
+	});
+});
 </script>
 @endpush
