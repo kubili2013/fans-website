@@ -9,16 +9,17 @@
         <link rel="stylesheet" type="text/css" href="/css/GalMenu.css">
         
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script src="https://cdn.jsdelivr.net/npm/trianglify@1.2.0/dist/trianglify.min.js"></script>
-        
-        <title>Laravel</title>
+        <meta content="IKUN,蔡徐坤,蔡徐坤粉丝,蔡徐坤图片,蔡徐坤视频,蔡徐坤好物,菜包,August,坤坤,坤帅" name="Keywords">
+        <meta name="description" content="本站是一个非官方的，非营利性的网站，仅开放给所有蔡徐坤的粉丝们。">
+        <link rel="shortcut icon" href="/img/2_160x160.jpg">
+        <title>蔡徐坤粉丝站</title>
 
         <!-- Styles -->
         <style>
             body{
                 color:#ddd;
             }
-            body > canvas  {
+            /* body > canvas  {
                 position: fixed;
                 left: 50%;
                 top: 50%;
@@ -30,7 +31,7 @@
                 text-shadow:#999 1px 0 0,#999 0 1px 0,#999 -1px 0 0,#999 0 -1px 0;
                 -webkit-text-shadow:#999 1px 0 0,#999 0 1px 0,#999 -1px 0 0,#999 0 -1px 0;
                 -moz-text-shadow:#999 1px 0 0,#999 0 1px 0,#999 -1px 0 0,#999 0 -1px 0;
-            }
+            } */
             .text-muted {
                 font-size: 16px;
                 color:#ddd;
@@ -45,14 +46,6 @@
         @stack('css')
     </head>
     <body>
-        <script>
-            var pattern = Trianglify({
-                width: window.innerWidth,
-                height: window.innerHeight
-            });
-            document.body.appendChild(pattern.canvas());
-            document.getElementsByTagName("canvas")[0].style.zIndex = -1;
-        </script>
         <div class="galMenu galRing">
             <div class="circle" id="gal">
               <div class="ring">
@@ -99,6 +92,7 @@
         @yield('content')
 
         <script type="text/javascript" src="/js/app.js"></script>
+        <script src="https://cdn.foolishgoat.com/jquery.vide.min.js"></script>
         <script type="text/javascript" src="/js/GalMenu.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
@@ -111,6 +105,12 @@
                 $( ".button" ).click(function() {
                     $(this).toggleClass( "active" );
                     $(".icons").toggleClass( "open" );
+                });
+                $('body').vide({
+                    mp4: "https://cdn.foolishgoat.com/background.mp4",
+                    poster: "https://cdn.foolishgoat.com/background.jpg"
+                }, {
+                    posterType: 'jpg'
                 });
             });
         </script>

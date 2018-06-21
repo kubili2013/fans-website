@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
-use Auth;
-use App\Http\Requests\ImageRequest;
 
-class ImageController extends Controller
+class InventoryController extends Controller
 {
-
-    public function __construct()
-    {
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +14,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-        return view('image',["images" => Image::orderBy('id', 'desc')->paginate(15)]);
-    }
-
-    public function get(){
-        return Image::orderBy('id', 'desc')->paginate(15);
+        //
     }
 
     /**
@@ -34,7 +24,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view("add.image");
+        //
     }
 
     /**
@@ -43,21 +33,18 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ImageRequest $request)
+    public function store(Request $request)
     {
-        Auth::user()->images()->create($request->all());
-        \Session::flash('flash_message_success',"图片上传成功。");
-        \Session::flash('flash_message_important',true);
-        return redirect(route('image.add'));
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Image  $image
+     * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show(Image $image)
+    public function show(Inventory $inventory)
     {
         //
     }
@@ -65,10 +52,10 @@ class ImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Image  $image
+     * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Image $image)
+    public function edit(Inventory $inventory)
     {
         //
     }
@@ -77,10 +64,10 @@ class ImageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Image  $image
+     * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(Request $request, Inventory $inventory)
     {
         //
     }
@@ -88,10 +75,10 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Image  $image
+     * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy(Inventory $inventory)
     {
         //
     }

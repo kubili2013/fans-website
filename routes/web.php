@@ -31,15 +31,15 @@ Auth::routes();
 
 Route::get('/videos', "VideoController@index")->name('videos');
 Route::get('/video/page', "VideoController@get")->name('video.page');
-Route::get('/video/add',"VideoController@create")->name('video.add');
-Route::post('/video/add',"VideoController@store")->name('video.store');
+Route::get('/video/add',"VideoController@create")->middleware('auth')->name('video.add');
+Route::post('/video/add',"VideoController@store")->middleware('auth')->name('video.store');
 
 
 
 Route::get('/images', "ImageController@index")->name('images');
 Route::get('/images/page', "ImageController@get")->name('image.page');
-Route::get('/image/add',"ImageController@create")->name('image.add');
-Route::post('/image/add',"ImageController@store")->name('image.store');
+Route::get('/image/add',"ImageController@create")->middleware('auth')->name('image.add');
+Route::post('/image/add',"ImageController@store")->middleware('auth')->name('image.store');
 
 Route::get('/navigation/add',"NavigationController@create")->middleware('role:admin')->name('navigation.add');
 Route::post('/navigation/add',"NavigationController@store")->middleware('role:admin')->name('navigation.store');
@@ -52,8 +52,8 @@ Route::post('/goods/add',"GoodsController@store")->middleware('role:admin')->nam
 
 Route::get('/news', "NewsController@index")->name('news');
 Route::get('/news/page', "NewsController@get")->name('news.page');
-Route::get('/news/add',"NewsController@create")->name('news.add');
-Route::post('/news/add',"NewsController@store")->name('news.store');
+Route::get('/news/add',"NewsController@create")->middleware('role:admin')->name('news.add');
+Route::post('/news/add',"NewsController@store")->middleware('role:admin')->name('news.store');
 
 
 Route::get('/fans', "FansController@index")->name('fans');

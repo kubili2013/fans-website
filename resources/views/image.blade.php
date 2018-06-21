@@ -23,7 +23,7 @@
                     <i class="glyphicon glyphicon-download-alt"></i>
                   </div>
                 </div>
-                <img class="img-fluid" src="{{$image->url}}" width="200">
+                <img class="img-fluid" src="{{$image->url}}?imageMogr2/thumbnail/!200x" width="200">
               </a>
             </div>
           </div>
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-
+  @include('layouts.mask')
 @endsection
 
 @push('script')
@@ -82,26 +82,31 @@
           let that=this;
           window.onscroll = function (){
             if (that.slidescroll() && page < totalpage) {
+              mask();
               $.ajaxSetup({async:false}); 
               $.get("{{route('image.page')}}?page=" + (page + 1),function(result){
                 page = result.current_page;
                 totalpage =  result.last_page;
                 $.each(result.data,function(index,value){
+                  let _value = value;
+                  $.get( $(value).attr("url") + "?imageInfo",function(result){
                     that.waterfull.append(`<div class="box">
                       <div class="content portfolio-item">
-                        <a class="portfolio-link"  target="_blank" href="${$(value).attr("url")}" id="image-${$(value).attr("id")}" download>
+                        <a class="portfolio-link" href="${$(_value).attr("url")}"  target="_blank" id="goods-${$(_value).attr("id")}">
                           <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
                               <i class="glyphicon glyphicon-download-alt"></i>
                             </div>
                           </div>
-                          <img class="img-fluid" src="${$(value).attr("url")}" width="200">
+                          <img class="img-fluid" src="${$(_value).attr("url")}?imageMogr2/thumbnail/!200x" width="200" height="${$(result).attr("height") / $(result).attr("width") * 200}">
                         </a>
                       </div>
                     </div>`);
-                    that.setBody();
+                  });
                 });
+                that.setBody();
               });
+              enmask();
             }
           };
       },
