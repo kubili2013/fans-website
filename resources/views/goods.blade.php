@@ -31,18 +31,35 @@
 var page = 1;
 var totalpage = {{$goods->lastPage()}};
 $(function(){
+	var winWidth = $(window).width();
+	var currentWidth = 1100;
+	if(winWidth < 660) {
+			conWidth = 440;
+			col = 2;
+		} else if(winWidth < 880) {
+			conWidth = 660;
+			col = 2;
+		} else if(winWidth < 1100) {
+			conWidth = 880;
+			col = 4;
+		} else {
+			conWidth = 1100;
+			col = 5;
+		}
 	$("img.lazy").lazyload({		
 		load:function(){
+			$('#_container').width(conWidth);
 			$('#_container').BlocksIt({
-				numOfCol:5,
+				numOfCol:col,
 				offsetX: 8,
 				offsetY: 8
 			});
 		}
 	});	
 	$(window).scroll(function(){
-			// 当滚动到最底部以上50像素时， 加载新内容
-		if (page < totalpage && $(document).height() - $(this).scrollTop() - $(this).height()<20){
+		// 当滚动到最底部以上50像素时， 加载新内容
+		if ( page < totalpage &&
+		($(document).height() - $(this).scrollTop() - $(this).height()< 50 || $(this).scrollTop() + $(this).height()  >= $(document).height())){
       $.ajaxSetup({async:false}); 
       $.get("{{route('goods.page')}}?page=" + (page + 1),function(result){
         page = result.current_page;
@@ -57,27 +74,30 @@ $(function(){
           `);
         });
       });
-					
-			$('#_container').BlocksIt({
-				numOfCol:5,
-				offsetX: 8,
-				offsetY: 8
+			$("img.lazy").lazyload(
+				{		
+				load:function(){
+					$('#_container').BlocksIt({
+						numOfCol:col,
+						offsetX: 8,
+						offsetY: 8
+					});
+				}
 			});
-			$("img.lazy").lazyload();
 		}
 	});
 	
 	//window resize
-	var currentWidth = 1100;
+	
 	$(window).resize(function() {
 		var winWidth = $(window).width();
 		var conWidth;
 		if(winWidth < 660) {
 			conWidth = 440;
-			col = 2
+			col = 2;
 		} else if(winWidth < 880) {
 			conWidth = 660;
-			col = 3
+			col = 3;
 		} else if(winWidth < 1100) {
 			conWidth = 880;
 			col = 4;
