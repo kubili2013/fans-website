@@ -59,7 +59,7 @@ $(function(){
 	$(window).scroll(function(){
 		// 当滚动到最底部以上50像素时， 加载新内容
 		if ( page < totalpage &&
-		($(document).height() - $(this).scrollTop() - $(this).height()< 50 || $(this).scrollTop() + $(this).height()  >= $(document).height())){
+		($(document).height() - $(this).scrollTop() - $(this).height()< 200 || $(this).scrollTop() + $(this).height()  >= $(document).height())){
       $.ajaxSetup({async:false}); 
       $.get("{{route('image.page')}}?page=" + (page + 1),function(result){
         page = result.current_page;
