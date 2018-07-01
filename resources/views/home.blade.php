@@ -30,6 +30,7 @@
 
 @endsection
 @push('css')
+<meta name="baidu-site-verification" content="5thP8d2ROQ" />
     <style>
     .mx-auto{
         padding:0 15px 0 15px;
